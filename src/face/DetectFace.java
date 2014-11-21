@@ -13,14 +13,14 @@ import org.opencv.objdetect.CascadeClassifier;
  * Detects faces in an image, draws boxes around them, and writes the results
  * to "faceDetection.png".
  */
-public class DetectFaceDemo {
-    public void run() {
+public class DetectFace {
+    public int run(String inputFile, String outputFile) {
         System.out.println("\nRunning DetectFaceDemo");
 
         // Create a face detector from the cascade file in the resources
         // directory.
         CascadeClassifier faceDetector = new CascadeClassifier("data/haarcascades/haarcascade_frontalface_alt.xml");
-        Mat image = Imgcodecs.imread("src/b.jpg");
+        Mat image = Imgcodecs.imread(inputFile);
 
         // Detect faces in the image.
         // MatOfRect is a special container class for Rect.
@@ -37,8 +37,8 @@ public class DetectFaceDemo {
         }
 
         // Save the visualized detection.
-        String filename = "src/faceDetection.png";
-        System.out.println(String.format("Writing %s", filename));
-        Imgcodecs.imwrite(filename, image);
+        System.out.println(String.format("Writing %s", outputFile));
+        Imgcodecs.imwrite(outputFile, image);
+        return faceDetections.toArray().length;
     }
 }
