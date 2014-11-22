@@ -2,7 +2,7 @@ package contour;
 
 import org.opencv.core.*;
 import static org.opencv.imgproc.Imgproc.*;
-import static org.opencv.imgcodecs.Imgcodecs.*;
+import static org.opencv.highgui.Highgui.*;
 
 public class ContourReco {
 

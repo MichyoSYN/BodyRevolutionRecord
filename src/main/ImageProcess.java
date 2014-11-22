@@ -31,7 +31,7 @@ public class ImageProcess {
 	
 	public static void warningOfFaces(int faces) {
 		if(faces < 1) {
-			System.out.print("NOTICE >>¡@Please stand into the camera area!");
+			System.out.print("NOTICE >> Please stand into the camera area!");
 		}
 		else if(faces > 1) {
 			System.out.print("NOTICE >> Please keep only one person in camera area in a time!");
