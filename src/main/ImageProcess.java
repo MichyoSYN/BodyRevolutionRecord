@@ -1,21 +1,38 @@
 package main;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Vector;
+
+import javax.imageio.ImageIO;
+import javax.media.MediaLocator;
+
 import org.opencv.core.Core;
 
 import contour.ContourReco;
 import face.DetectFace;
+import video.VideoTrans;
+import video.JpegImagesToMovie;
 
 public class ImageProcess {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
 		
-		String inputFile = "resources/AverageMaleFace.jpg";
+		/*String inputFile = "resources/AverageMaleFace.jpg";
 		String outputFile = "src/male_canny.jpg";
 		
-		run(inputFile, outputFile);
+		run(inputFile, outputFile);*/
 		
+		//String[] pictures = {"src/a.jpg", "src/b.jpg"};
+		String video = "src/video.mp4";
+		//transVideo(pictures, video);
+		Vector<String> pics = new Vector<String>();
+		pics.add("src/320.jpg");
+		makeVideo(pics, video, 320, 320);
 	}
 	
 	public static void run(String inputFile, String outputFile) {
@@ -27,6 +44,27 @@ public class ImageProcess {
 		warningOfFaces(faces);
 		
 		new ContourReco().run(inputFile, outputFile);
+	}
+	
+	public static void transVideo(String[] inputPictures, String outputVideo) throws IOException {
+		VideoTrans encoder = new VideoTrans(new File(outputVideo));
+	    for (int i = 0; i < inputPictures.length; i++) {
+	        BufferedImage bi = ImageIO.read(new File(inputPictures[i]));
+	        encoder.encodeImage(bi);
+	    }
+	    encoder.finish();
+	}
+	
+	public static void makeVideo(Vector<String> inputPictures, String fileName, int width, int height) throws MalformedURLException {
+	    JpegImagesToMovie imageToMovie = new JpegImagesToMovie();
+	    MediaLocator oml;
+	    if ((oml = JpegImagesToMovie.createMediaLocator(fileName)) == null) {
+	        System.err.println("Cannot build media locator from: " + fileName);
+	        System.exit(0);
+	    }
+	    int interval = 50;
+	    imageToMovie.doIt(width, height, (1000 / interval), inputPictures, oml);
+
 	}
 	
 	public static void warningOfFaces(int faces) {
