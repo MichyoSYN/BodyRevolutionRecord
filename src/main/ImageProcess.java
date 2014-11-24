@@ -13,7 +13,6 @@ import org.opencv.core.Core;
 
 import contour.ContourReco;
 import face.DetectFace;
-import video.VideoTrans;
 import video.JpegImagesToMovie;
 
 public class ImageProcess {
@@ -22,17 +21,18 @@ public class ImageProcess {
 		// TODO Auto-generated method stub
 		
 		
-		/*String inputFile = "resources/AverageMaleFace.jpg";
-		String outputFile = "src/male_canny.jpg";
+		String inputFile = "src/1.jpg";
+		String outputFile = "src/1_canny.jpg";
 		
-		run(inputFile, outputFile);*/
+		faces(inputFile, outputFile);
 		
 		//String[] pictures = {"src/a.jpg", "src/b.jpg"};
-		String video = "src/video.mp4";
 		//transVideo(pictures, video);
-		Vector<String> pics = new Vector<String>();
-		pics.add("src/320.jpg");
-		makeVideo(pics, video, 320, 320);
+		
+		//String video = "src/video.mp4";
+		//Vector<String> pics = new Vector<String>();
+		//pics.add("src/320.jpg");
+		//makeVideo(pics, video, 320, 320);
 	}
 	
 	public static void run(String inputFile, String outputFile) {
@@ -46,13 +46,16 @@ public class ImageProcess {
 		new ContourReco().run(inputFile, outputFile);
 	}
 	
-	public static void transVideo(String[] inputPictures, String outputVideo) throws IOException {
-		VideoTrans encoder = new VideoTrans(new File(outputVideo));
-	    for (int i = 0; i < inputPictures.length; i++) {
-	        BufferedImage bi = ImageIO.read(new File(inputPictures[i]));
-	        encoder.encodeImage(bi);
-	    }
-	    encoder.finish();
+	public static void contour(String inputFile, String outputFile) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		new ContourReco().run(inputFile, outputFile);
+	}
+	
+	public static void faces(String inputFile, String outputFile) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		// Amout of faces can be deteced in the picture now.
+		int faces = new DetectFace().run(inputFile, outputFile);
+		warningOfFaces(faces);
 	}
 	
 	public static void makeVideo(Vector<String> inputPictures, String fileName, int width, int height) throws MalformedURLException {
